@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mahalakshmi Food Services | Homemade Andhra Catering</title>
-    <link rel="icon" type="image/png" href="images/MFS_favicon.png">
-    <link rel="apple-touch-icon" href="images/MFS_favicon.png">
     <meta name="description" content="Mahalakshmi Food Services - Homemade authentic Andhra style catering, takeaway and bulk orders in Avalahalli, Bengaluru.">
     <link rel="stylesheet" href="style.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>window.MFS_API_BASE_URL = "https://mfs-backend-hrjv.onrender.com";</script>
 </head>
 <body>
 
 <header class="site-header">
     <div class="container header-inner">
-        <a href="#home" class="logo"><img src="images/MFS_logo_from_screenshot.png" alt="Mahalakshmi Food Services"></a>
+        <a href="#home" class="logo"><img src="images/MFS_logo.png" alt="Mahalakshmi Food Services"></a>
         <nav class="nav">
             <a href="#home">Home</a>
             <a href="#menu">Menu</a>
@@ -38,7 +38,7 @@
             </div>
         </div>
         <aside class="hero-side">
-            <img src="images/MFS_logo_from_screenshot.png" alt="MFS Logo">
+            <img src="images/MFS_logo.png" alt="MFS Logo">
             <div class="service">CATERING SERVICES</div>
             <div class="service">AUTHENTIC • HYGIENIC • DELICIOUS</div>
             <div class="numbers">
@@ -60,27 +60,27 @@
 
         <div class="category-grid clean-category-grid">
             <a class="clean-category-card orange-card" href="#menu">
-                <div class="category-photo"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Dosa,idli_and_bade.jpg" alt="Tiffins and Breakfast" loading="lazy"></div>
+                <img src="images/tiffins-clean.jpg" alt="Tiffins / Breakfast">
                 <span>Tiffins / Breakfast</span>
             </a>
             <a class="clean-category-card green-card" href="#menu">
-                <div class="category-photo"><img src="https://images.unsplash.com/photo-1742281257707-0c7f7e5ca9c6?auto=format&fit=crop&fm=jpg&q=85&w=1400" alt="Veg Meals" loading="lazy"></div>
+                <img src="images/veg-meals-clean.jpg" alt="Veg Meals">
                 <span>Veg Meals</span>
             </a>
             <a class="clean-category-card red-card" href="#menu">
-                <div class="category-photo"><img src="https://images.unsplash.com/photo-1559528896-c5310744cce8?auto=format&fit=crop&fm=jpg&q=85&w=1400" alt="Non-Veg Meals" loading="lazy"></div>
+                <img src="images/nonveg-meals-clean.jpg" alt="Non-Veg Meals">
                 <span>Non-Veg Meals</span>
             </a>
             <a class="clean-category-card gold-card" href="#menu">
-                <div class="category-photo"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Vegetable-biryani.jpg" alt="Veg and Non-Veg Palav" loading="lazy"></div>
+                <img src="images/veg-palav-clean.jpg" alt="Veg &amp; Non-Veg Palav">
                 <span>Veg &amp; Non-Veg Palav</span>
             </a>
             <a class="clean-category-card brown-card" href="#menu">
-                <div class="category-photo"><img src="https://images.unsplash.com/photo-1772729996007-40bad08b3c40?auto=format&fit=crop&fm=jpg&q=85&w=1400" alt="Snacks" loading="lazy"></div>
+                <img src="images/snacks-clean.jpg" alt="Snacks">
                 <span>Snacks</span>
             </a>
             <a class="clean-category-card pink-card" href="#menu">
-                <div class="category-photo"><img src="https://images.unsplash.com/photo-1758910536889-43ce7b3199fd?auto=format&fit=crop&fm=jpg&q=85&w=1400" alt="Sweets" loading="lazy"></div>
+                <img src="images/sweets-clean.jpg" alt="Sweets">
                 <span>Sweets</span>
             </a>
         </div>
@@ -111,6 +111,9 @@
                     <li>Uttapam</li>
                     <li>Pesarattu</li>
                 </ul>
+                <div class="tiffin-order-action">
+                    <button type="button" class="order-tiffins-btn" id="openTiffinOrder">🛒 Order Tiffins</button>
+                </div>
             </article>
 
             <article class="menu-card green">
@@ -217,6 +220,51 @@
             </article>
 
         </div>
+
+        <!-- TIFFIN ORDERING -->
+        <section id="tiffin-order" class="tiffin-order-section" hidden>
+            <div class="tiffin-order-header">
+                <div>
+                    <div class="section-label">TIFFIN ORDERS</div>
+                    <h2>Select Your Tiffins</h2>
+                    <p>Choose the items and quantities you would like to order.</p>
+                </div>
+                <button type="button" class="close-tiffin-order" id="closeTiffinOrder" aria-label="Close tiffin ordering">×</button>
+            </div>
+
+            <div class="tiffin-order-grid" id="tiffinOrderList"></div>
+
+            <div class="tiffin-cart">
+                <div>
+                    <div class="cart-label">YOUR ORDER</div>
+                    <div id="tiffinCartItems" class="cart-items">No items selected yet.</div>
+                </div>
+                <div class="cart-total-wrap">
+                    <span>Total</span>
+                    <strong id="tiffinCartTotal">₹0</strong>
+                </div>
+            </div>
+
+            <div class="tiffin-customer">
+                <div class="customer-field">
+                    <label for="tiffinCustomerName">Name</label>
+                    <input id="tiffinCustomerName" type="text" placeholder="Your name" autocomplete="name">
+                </div>
+                <div class="customer-field">
+                    <label for="tiffinCustomerMobile">Mobile Number</label>
+                    <input id="tiffinCustomerMobile" type="tel" placeholder="10-digit mobile number" inputmode="numeric" autocomplete="tel">
+                </div>
+                <div class="customer-field">
+                    <label for="tiffinPickupTime">Pickup Time</label>
+                    <input id="tiffinPickupTime" type="time">
+                </div>
+            </div>
+
+            <div class="tiffin-payment-row">
+                <p id="tiffinOrderMessage" class="tiffin-order-message"></p>
+                <button type="button" id="tiffinPayButton" class="tiffin-pay-btn" disabled>Proceed to Payment</button>
+            </div>
+        </section>
     </div>
 </section>
 
@@ -258,7 +306,7 @@
 
 <footer>
     <div class="container footer-inner">
-        <img src="images/MFS_logo_from_screenshot.png" alt="MFS">
+        <img src="images/MFS_logo.png" alt="MFS">
         <div>
             <strong>Mahalakshmi Food Services</strong>
             <p>Homemade • Authentic Andhra Style</p>
