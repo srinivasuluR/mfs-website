@@ -522,14 +522,11 @@ document.addEventListener("DOMContentLoaded", function () {
             })
         };
 
-        // If a future backend explicitly enables location fields, include the
-        // coordinates used by the delivery-radius check. The default remains
-        // compatible with the current order DTO.
-        if (window.MFS_SEND_LOCATION_FIELDS === true) {
-            request.latitude = checkedLocation.latitude;
-            request.longitude = checkedLocation.longitude;
-            request.deliveryDistanceKm = Number(checkedLocation.distanceKm.toFixed(3));
-        }
+        // The backend performs the final delivery-radius validation.
+        // Always send the coordinates returned by the browser so the backend
+        // can validate the order against the current admin-configured radius.
+        request.deliveryLatitude = checkedLocation.latitude;
+        request.deliveryLongitude = checkedLocation.longitude;
 
         try {
             const response = await fetch(API_BASE_URL + "/api/payments/razorpay/order", {
