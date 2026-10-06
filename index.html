@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mahalakshmi Food Services | Homemade Andhra Catering</title>
     <meta name="description" content="Mahalakshmi Food Services - Homemade authentic Andhra style catering, takeaway and bulk orders in Avalahalli, Bengaluru.">
+    <link rel="icon" type="image/png" href="images/MFS_favicon.png">
+    <link rel="apple-touch-icon" href="images/MFS_favicon.png">
     <link rel="stylesheet" href="style.css">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>window.MFS_API_BASE_URL = "https://mfs-backend-hrjv.onrender.com";</script>
@@ -113,6 +115,9 @@
                 </ul>
                 <div class="tiffin-order-action">
                     <button type="button" class="order-tiffins-btn" id="openTiffinOrder">🛒 Order Tiffins</button>
+                    <div id="tiffinCutoffNotice" class="tiffin-cutoff-notice" hidden>
+                        Tomorrow&apos;s tiffin orders are closed for today. Please place your order before 10:00 PM.
+                    </div>
                 </div>
             </article>
 
@@ -248,16 +253,59 @@
             <div class="tiffin-customer">
                 <div class="customer-field">
                     <label for="tiffinCustomerName">Name</label>
-                    <input id="tiffinCustomerName" type="text" placeholder="Your name" autocomplete="name">
+                    <input id="tiffinCustomerName" type="text" placeholder="Your name" autocomplete="name" maxlength="100">
                 </div>
                 <div class="customer-field">
                     <label for="tiffinCustomerMobile">Mobile Number</label>
-                    <input id="tiffinCustomerMobile" type="tel" placeholder="10-digit mobile number" inputmode="numeric" autocomplete="tel">
+                    <input id="tiffinCustomerMobile" type="tel" placeholder="10-digit mobile number" inputmode="numeric" autocomplete="tel" maxlength="10">
                 </div>
                 <div class="customer-field">
-                    <label for="tiffinPickupTime">Pickup Time</label>
-                    <input id="tiffinPickupTime" type="time">
+                    <label for="tiffinDeliveryDate">Delivery Date</label>
+                    <input id="tiffinDeliveryDate" type="date" readonly aria-describedby="deliveryDateHint">
+                    <small id="deliveryDateHint" class="field-hint">Tomorrow</small>
                 </div>
+            </div>
+
+            <div class="delivery-details">
+                <div class="customer-field">
+                    <label for="tiffinDeliverySlot">Delivery Slot</label>
+                    <select id="tiffinDeliverySlot">
+                        <option value="">Select delivery slot</option>
+                        <option value="06:00-07:00">6:00 AM - 7:00 AM</option>
+                        <option value="07:00-08:00">7:00 AM - 8:00 AM</option>
+                        <option value="08:00-09:00">8:00 AM - 9:00 AM</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="delivery-address">
+                <div class="address-title">DELIVERY ADDRESS</div>
+                <div class="address-grid">
+                    <div class="customer-field">
+                        <label for="tiffinFlatNumber">Flat / House Number</label>
+                        <input id="tiffinFlatNumber" type="text" placeholder="e.g. Flat 302" autocomplete="address-line1" maxlength="100">
+                    </div>
+                    <div class="customer-field">
+                        <label for="tiffinApartmentName">Apartment / Building Name</label>
+                        <input id="tiffinApartmentName" type="text" placeholder="e.g. Sai Serenity Apartments" autocomplete="organization" maxlength="150">
+                    </div>
+                    <div class="customer-field">
+                        <label for="tiffinLandmark">Landmark</label>
+                        <input id="tiffinLandmark" type="text" placeholder="e.g. Near Seegehalli Main Road" maxlength="200">
+                    </div>
+                </div>
+            </div>
+
+            <div class="delivery-location">
+                <div>
+                    <div class="address-title">DELIVERY LOCATION</div>
+                    <p class="location-help">Your delivery address is separate from GPS location. We use your location only to check whether the address is within the MFS delivery area.</p>
+                </div>
+                <button type="button" id="checkDeliveryLocation" class="location-btn">📍 Use My Location</button>
+                <div id="deliveryLocationStatus" class="location-status" role="status" aria-live="polite">Location not checked yet.</div>
+                <input type="hidden" id="tiffinLatitude">
+                <input type="hidden" id="tiffinLongitude">
+                <input type="hidden" id="tiffinDistanceKm">
             </div>
 
             <div class="tiffin-payment-row">
