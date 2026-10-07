@@ -52,6 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const orderList = document.getElementById("tiffinOrderList");
     const cartItems = document.getElementById("tiffinCartItems");
     const cartTotal = document.getElementById("tiffinCartTotal");
+    const foodTotal = document.getElementById("tiffinFoodTotal");
+    const PACKING_CHARGE = 10;
     const payButton = document.getElementById("tiffinPayButton");
     const message = document.getElementById("tiffinOrderMessage");
 
@@ -183,9 +185,12 @@ document.addEventListener("DOMContentLoaded", function () {
             }).join("<br>")
             : "No items selected yet.";
 
-        cartTotal.textContent = rupees(total);
+        const packingCharge = selected.length ? PACKING_CHARGE : 0;
+        const grandTotal = total + packingCharge;
+        if (foodTotal) foodTotal.textContent = rupees(total);
+        cartTotal.textContent = rupees(grandTotal);
         payButton.disabled = selected.length === 0 || !isOrderingOpen();
-        return { selected: selected, total: total };
+        return { selected: selected, total: grandTotal, foodTotal: total, packingCharge: packingCharge };
     }
 
     function escapeHtml(value) {
